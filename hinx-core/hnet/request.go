@@ -1,13 +1,15 @@
 package hnet
 
-import "hinx/hiface"
+import (
+	hiface2 "hinx/hinx-core/hiface"
+)
 
 type Request struct {
-	conn hiface.IConnection //  connection established to client
-	msg  hiface.IMessage
+	conn hiface2.IConnection //  connection established to client
+	msg  hiface2.IMessage
 }
 
-func (r *Request) GetConnection() hiface.IConnection {
+func (r *Request) GetConnection() hiface2.IConnection {
 	return r.conn
 }
 

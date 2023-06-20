@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hinx/hnet"
+	hnet2 "hinx/hinx-core/hnet"
 	"io"
 	"net"
 	"strconv"
@@ -13,8 +13,8 @@ func main() {
 	conn, _ := net.Dial("tcp", "127.0.0.1:8899")
 
 	for i := 0; i < 10; i++ {
-		dp := hnet.NewDataPack()
-		pack, err := dp.Pack(hnet.NewMsgPackage(1, []byte("hello hinx")))
+		dp := hnet2.NewDataPack()
+		pack, err := dp.Pack(hnet2.NewMsgPackage(1, []byte("hello hinx")))
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -38,7 +38,7 @@ func main() {
 		}
 		//fmt.Println(unpack)
 		if unpack.GetDataLen() > 0 {
-			msg := unpack.(*hnet.Message)
+			msg := unpack.(*hnet2.Message)
 			msg.Data = make([]byte, msg.GetDataLen())
 
 			_, err = io.ReadFull(conn, msg.Data)

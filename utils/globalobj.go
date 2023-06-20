@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
-	"hinx/hiface"
+	"hinx/hinx-core/hiface"
 	"os"
 )
 

@@ -3,20 +3,20 @@ package hnet
 import (
 	"errors"
 	"fmt"
-	"hinx/hiface"
+	hiface2 "hinx/hinx-core/hiface"
 	"io"
 	"net"
 	"sync"
 )
 
 type Connection struct {
-	TcpServer hiface.IServer
+	TcpServer hiface2.IServer
 	Conn      *net.TCPConn
 	ConnID    uint32
 	isClosed  bool
 	ExitChan  chan bool
 	msgChan   chan []byte
-	MsgHandle hiface.IMsgHandle
+	MsgHandle hiface2.IMsgHandle
 
 	// a set of connection properties
 	property     map[string]interface{}
@@ -49,7 +49,7 @@ func (c *Connection) RemoveProperty(key string) {
 }
 
 // NewConnection init Connection module function
-func NewConnection(parent hiface.IServer, conn *net.TCPConn, connID uint32, msgHandler hiface.IMsgHandle) *Connection {
+func NewConnection(parent hiface2.IServer, conn *net.TCPConn, connID uint32, msgHandler hiface2.IMsgHandle) *Connection {
 	c := &Connection{
 		TcpServer: parent,
 		Conn:      conn,

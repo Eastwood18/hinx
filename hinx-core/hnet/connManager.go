@@ -3,7 +3,7 @@ package hnet
 import (
 	"errors"
 	"fmt"
-	"hinx/hiface"
+	"hinx/hinx-core/hiface"
 	"sync"
 )
 

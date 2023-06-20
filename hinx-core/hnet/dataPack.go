@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
-	"hinx/hiface"
+	"hinx/hinx-core/hiface"
 	"hinx/utils"
 )
 

@@ -2,7 +2,7 @@ package hnet
 
 import (
 	"fmt"
-	"hinx/hiface"
+	hiface2 "hinx/hinx-core/hiface"
 	"hinx/utils"
 	"net"
 )
@@ -13,36 +13,36 @@ type Server struct {
 	IPVersion   string // server ip version
 	IP          string // server ip
 	Port        int    // server bind port
-	MsgHandler  hiface.IMsgHandle
-	ConnManager hiface.IConnManager
+	MsgHandler  hiface2.IMsgHandle
+	ConnManager hiface2.IConnManager
 
-	OnConnStart func(conn hiface.IConnection)
-	OnConnStop  func(conn hiface.IConnection)
+	OnConnStart func(conn hiface2.IConnection)
+	OnConnStop  func(conn hiface2.IConnection)
 }
 
-func (s *Server) SetOnConnStart(f func(connection hiface.IConnection)) {
+func (s *Server) SetOnConnStart(f func(connection hiface2.IConnection)) {
 	s.OnConnStart = f
 }
 
-func (s *Server) SetOnConnStop(f func(connection hiface.IConnection)) {
+func (s *Server) SetOnConnStop(f func(connection hiface2.IConnection)) {
 	s.OnConnStop = f
 }
 
-func (s *Server) CallOnConnStart(connection hiface.IConnection) {
+func (s *Server) CallOnConnStart(connection hiface2.IConnection) {
 	if s.OnConnStart == nil {
 		return
 	}
 	s.OnConnStart(connection)
 }
 
-func (s *Server) CallOnConnStop(connection hiface.IConnection) {
+func (s *Server) CallOnConnStop(connection hiface2.IConnection) {
 	if s.OnConnStart == nil {
 		return
 	}
 	s.OnConnStop(connection)
 }
 
-func (s *Server) AddRouter(id uint32, router hiface.IRouter) {
+func (s *Server) AddRouter(id uint32, router hiface2.IRouter) {
 	s.MsgHandler.AddRouter(id, router)
 	fmt.Println("Add router success")
 }
@@ -105,12 +105,12 @@ func (s *Server) Serve() {
 	select {}
 }
 
-func (s *Server) GetConnManager() hiface.IConnManager {
+func (s *Server) GetConnManager() hiface2.IConnManager {
 	return s.ConnManager
 }
 
 // NewServer init server
-func NewServer(name string) hiface.IServer {
+func NewServer(name string) hiface2.IServer {
 	s := &Server{
 		Name:        utils.GlobalObject.Name,
 		IPVersion:   "tcp4",

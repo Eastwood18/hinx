@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"hinx/hiface"
-	"hinx/hnet"
+	"hinx/hinx-core/hiface"
+	"hinx/hinx-core/hnet"
 )
 
 type PingRouter struct {

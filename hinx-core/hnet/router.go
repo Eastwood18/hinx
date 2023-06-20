@@ -1,6 +1,8 @@
 package hnet
 
-import "hinx/hiface"
+import (
+	"hinx/hinx-core/hiface"
+)
 
 type BaseRouter struct {
 }
