@@ -1,0 +1,5 @@
+name: higgs_demo
+version: v01
+host: 0.0.0.0
+tcpPort: 8899
+maxConn: 10

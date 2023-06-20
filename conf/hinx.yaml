@@ -1,0 +1,4 @@
+name: higgs_demo
+version: v01
+workerpoolsize: 10
+maxconn: 2
