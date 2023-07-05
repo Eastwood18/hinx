@@ -1,6 +1,9 @@
 package hiface
 
-import "net"
+import (
+	"net"
+	"time"
+)
 
 // IConnection define abstract connection module
 type IConnection interface {
@@ -8,8 +11,8 @@ type IConnection interface {
 	Start()
 	// Stop  connection
 	Stop()
-	// GetTCPConnection get connection socket conn
-	GetTCPConnection() *net.TCPConn
+	// GetConnection get connection socket conn
+	GetConnection() net.Conn
 	// GetConnID get connection connect_id
 	GetConnID() uint32
 	// GetRemoteAddr get remote client IP Port
@@ -21,6 +24,10 @@ type IConnection interface {
 	SetProperty(key string, value interface{})
 	GetProperty(key string) (interface{}, error)
 	RemoveProperty(key string)
+
+	ResetHeartBreaker()
+	StopHeartBreaker()
+	TickHeartBreaker() <-chan time.Time
 }
 
 // HandleFunc define a function to handle connection business

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"hinx/hinx-core/hiface"
+	"hinx/hinx-core/hlog"
 	"hinx/hinx-core/hnet"
 )
 
@@ -21,9 +22,8 @@ type PingRouter struct {
 //}
 
 func (p *PingRouter) Handle(request hiface.IRequest) {
-	fmt.Println("Call Router Handle...")
-
-	fmt.Println("recv from client: msg ID= ", request.GetMsgID(), ", data= ", string(request.GetData()))
+	hlog.Ins().InfoF("Call Router Handle...")
+	hlog.Ins().InfoF("recv from client: msg ID= ", request.GetMsgID(), ", data= ", string(request.GetData()))
 
 	err := request.GetConnection().SendMsg(1, []byte("ping..."))
 	if err != nil {
@@ -37,13 +37,13 @@ type HelloRouter struct {
 }
 
 func (h *HelloRouter) Handle(request hiface.IRequest) {
-	fmt.Println("Call Router Handle...")
+	hlog.Ins().InfoF("Call Router Handle...")
 
-	fmt.Println("recv from client: msg ID= ", request.GetMsgID(), ", data= ", string(request.GetData()))
+	hlog.Ins().InfoF("recv from client: msg ID= ", request.GetMsgID(), ", data= ", string(request.GetData()))
 
 	err := request.GetConnection().SendMsg(1, []byte("hello..."))
 	if err != nil {
-		fmt.Println(err)
+		hlog.Ins().InfoF("", err)
 		return
 	}
 }
@@ -59,16 +59,17 @@ func (h *HelloRouter) Handle(request hiface.IRequest) {
 
 func main() {
 	s := hnet.NewServer("[hinx v01]")
-
+	//hlog.SetLogger(hlog.NewLogrusLogger())
+	hlog.StdHinxLog.SetLogFile("defaultLogs", "app.log")
 	s.SetOnConnStart(func(connection hiface.IConnection) {
-		fmt.Println("==> DoConnectionBegin is Called...")
+		hlog.Ins().InfoF("==> DoConnectionBegin is Called...")
 		connection.SetProperty("Server", "hinx")
 	})
 	s.SetOnConnStop(func(connection hiface.IConnection) {
-		fmt.Println("==> DoConnectionClose is Called...")
+		hlog.Ins().InfoF("==> DoConnectionClose is Called...")
 
 		if server, err := connection.GetProperty("Server"); err == nil {
-			fmt.Println("Server = ", server)
+			hlog.Ins().InfoF("Server = %v", server)
 		}
 	})
 

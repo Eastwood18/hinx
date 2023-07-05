@@ -2,8 +2,8 @@ package hnet
 
 import (
 	"errors"
-	"fmt"
 	"hinx/hinx-core/hiface"
+	"hinx/hinx-core/hlog"
 	"sync"
 )
 
@@ -23,7 +23,7 @@ func (c *ConnManager) Add(conn hiface.IConnection) {
 	defer c.connLock.Unlock()
 
 	c.conns[conn.GetConnID()] = conn
-	fmt.Println("connection add ", conn.GetConnID(), "to ConnManager successfully: conn num= ", c.Len())
+	hlog.Ins().InfoF("connection add %d to ConnManager successfully: conn num= %d ", conn.GetConnID(), c.Len())
 }
 
 func (c *ConnManager) Remove(conn hiface.IConnection) {
@@ -31,7 +31,7 @@ func (c *ConnManager) Remove(conn hiface.IConnection) {
 	defer c.connLock.Unlock()
 
 	delete(c.conns, conn.GetConnID())
-	fmt.Println("connection delete ", conn.GetConnID(), "to ConnManager successfully: conn num= ", c.Len())
+	hlog.Ins().InfoF("connection delete %d to ConnManager successfully: conn num= %d ", conn.GetConnID(), c.Len())
 }
 
 func (c *ConnManager) Get(connID uint32) (hiface.IConnection, error) {
@@ -56,5 +56,5 @@ func (c *ConnManager) ClearConns() {
 		conn.Stop()
 	}
 	c.conns = make(map[uint32]hiface.IConnection, 0)
-	fmt.Println("Clear All connection success", c.Len())
+	hlog.Ins().InfoF("Clear All connection success %d", c.Len())
 }

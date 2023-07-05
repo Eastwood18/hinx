@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"hinx/hinx-core/hconf"
 	"hinx/hinx-core/hiface"
-	"hinx/utils"
 )
 
 // DataPack base TLV format unpack message
@@ -47,7 +47,7 @@ func (d *DataPack) Unpack(binaryData []byte) (hiface.IMessage, error) {
 	if err != nil {
 		return nil, err
 	}
-	if utils.GlobalObject.MaxPackageSize > 0 && msg.DataLen > utils.GlobalObject.MaxPackageSize {
+	if hconf.GlobalObject.MaxPackageSize > 0 && msg.DataLen > hconf.GlobalObject.MaxPackageSize {
 		return nil, errors.New("too large msg recv")
 	}
 	return msg, nil
