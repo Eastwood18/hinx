@@ -1,9 +1,6 @@
 package htimer
 
 /**
-* @Author: Aceld(刘丹冰)
-* @Date: 2019/5/9 10:14
-* @Mail: danbing.at@gmail.com
 *
 *  时间轮定时器调度器单元测试
  */

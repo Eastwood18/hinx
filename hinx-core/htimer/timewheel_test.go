@@ -1,7 +1,4 @@
 /**
-* @Author: Aceld
-* @Date: 2019/5/7 18:00
-* @Mail: danbing.at@gmail.com
 *
 *  针对 timer_wheel.go 时间轮api 做单元测试, 主要测试时间轮运转功能
 *  依赖模块 delayFunc.go timer.go

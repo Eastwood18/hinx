@@ -2,7 +2,6 @@ package hiface
 
 import (
 	"net"
-	"time"
 )
 
 // IConnection define abstract connection module
@@ -25,9 +24,9 @@ type IConnection interface {
 	GetProperty(key string) (interface{}, error)
 	RemoveProperty(key string)
 
-	ResetHeartBreaker()
-	StopHeartBreaker()
-	TickHeartBreaker() <-chan time.Time
+	//ResetHeartBreaker()
+	//StopHeartBreaker()
+	//TickHeartBreaker() <-chan time.Time
 }
 
 // HandleFunc define a function to handle connection business

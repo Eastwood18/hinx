@@ -1,10 +1,6 @@
 package htimer
 
 /**
-* @Author: Aceld
-* @Date: 2019/5/8 17:43
-* @Mail: danbing.at@gmail.com
-*
 *  时间轮调度器
 *   依赖模块，delayfunc.go  timer.go timewheel.go
  */

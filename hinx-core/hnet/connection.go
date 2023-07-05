@@ -25,7 +25,7 @@ type Connection struct {
 	property     map[string]interface{}
 	propertyLock sync.RWMutex
 
-	heartBeater *time.Timer
+	heartBeater hiface.IHeartBeatChecker
 }
 
 func (c *Connection) Start() {
@@ -37,7 +37,7 @@ func (c *Connection) Start() {
 	c.Server.CallOnConnStart(c)
 
 	select {
-	case <-c.TickHeartBreaker():
+	case <-c.heartBeater.TickHeartBreaker():
 		hlog.Ins().InfoF("timeout!", time.Now())
 		c.Stop()
 	}
@@ -52,7 +52,7 @@ func (c *Connection) Stop() {
 	c.isClosed = true
 
 	c.Server.CallOnConnStop(c)
-	c.StopHeartBreaker()
+	c.heartBeater.StopHeartBreaker()
 	c.Conn.Close()
 
 	c.ExitChan <- true
@@ -121,7 +121,7 @@ func NewConnection(parent hiface.IServer, conn net.Conn, connID uint32, ipVersio
 
 		property: map[string]interface{}{},
 
-		heartBeater: time.NewTimer(time.Duration(hconf.GlobalObject.Heartbeat) * time.Millisecond),
+		heartBeater: &heartBeatChecker{time.NewTimer(time.Duration(hconf.GlobalObject.Heartbeat) * time.Millisecond)},
 	}
 
 	c.Server.GetConnManager().Add(c)
@@ -139,7 +139,7 @@ func (c *Connection) StartWriter() {
 		select {
 		case data := <-c.msgChan:
 			{
-				c.ResetHeartBreaker()
+				c.heartBeater.ResetHeartBreaker()
 				_, err := c.Conn.Write(data)
 				if err != nil {
 					hlog.Ins().ErrorF("send data error %v", err)
@@ -174,7 +174,7 @@ func (c *Connection) StartReader() {
 		}
 
 		// reset timer
-		c.ResetHeartBreaker()
+		c.heartBeater.ResetHeartBreaker()
 
 		msg, err := dp.Unpack(headData)
 		if err != nil {
@@ -261,16 +261,4 @@ func (c *Connection) GetConnID() uint32 {
 
 func (c *Connection) GetRemoteAddr() net.Addr {
 	return c.Conn.RemoteAddr()
-}
-
-func (c *Connection) ResetHeartBreaker() {
-	c.heartBeater.Reset(time.Duration(hconf.GlobalObject.Heartbeat) * time.Millisecond)
-}
-
-func (c *Connection) StopHeartBreaker() {
-	c.heartBeater.Stop()
-}
-
-func (c *Connection) TickHeartBreaker() <-chan time.Time {
-	return c.heartBeater.C
 }

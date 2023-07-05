@@ -1,11 +1,5 @@
 package htimer
 
-/**
-* @Author: Aceld
-* @Date: 2019/4/30 11:57
-* @Mail: danbing.at@gmail.com
- */
-
 import (
 	"errors"
 	"fmt"
