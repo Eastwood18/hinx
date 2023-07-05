@@ -1,0 +1,3 @@
+name: higgs_demo
+version: v01
+WorkerPoolSize: 10

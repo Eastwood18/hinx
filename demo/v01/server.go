@@ -61,6 +61,7 @@ func main() {
 	s := hnet.NewServer("[hinx v01]")
 	//hlog.SetLogger(hlog.NewLogrusLogger())
 	hlog.StdHinxLog.SetLogFile("defaultLogs", "app.log")
+	hlog.SetCons(true)
 	s.SetOnConnStart(func(connection hiface.IConnection) {
 		hlog.Ins().InfoF("==> DoConnectionBegin is Called...")
 		connection.SetProperty("Server", "hinx")
